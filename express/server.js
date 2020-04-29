@@ -31,7 +31,7 @@ router.get('/getip', (req, res) => {
   return res.send("show_ip('" + ip + "');");
 });
 
-router.use('/line_notify_netlify',
+router.get('/line_notify_netlify',
   lineNotify(config_line_notify_netlify),
   function(req, res) {
     const token = req['line-notify-access-token'];
