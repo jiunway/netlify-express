@@ -7,18 +7,11 @@ const bodyParser = require('body-parser');
 
 const router = express.Router();
 router.get('/', (req, res) => {
-  // res.writeHead(200, {
-  //   'Content-Type': 'text/html'
-  // });
-  // res.write('<h1>Hello from Express.jssss!</h1>');
-  // res.end();
-
-  var ip = req.headers['x-forwarded-for'] ||
-    req.connection.remoteAddress ||
-    req.socket.remoteAddress ||
-    (req.connection.socket ? req.connection.socket.remoteAddress : null);
-
-  return res.send("show_ip('" + ip + "');");
+  res.writeHead(200, {
+    'Content-Type': 'text/html'
+  });
+  res.write('<h1>Hello from Express.jssss!</h1>');
+  res.end();
 });
 
 router.get("/getip", async function(req, res) {
