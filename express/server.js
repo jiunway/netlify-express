@@ -36,7 +36,8 @@ router.use('/line_notify_netlify',
   function(req, res) {
     const token = req['line-notify-access-token'];
     console.log("token:" + token);
-  });
+  }
+);
 
 app.use(bodyParser.json());
 app.use('/.netlify/functions/server', router); // path must route to lambda
