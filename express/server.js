@@ -13,6 +13,16 @@ router.get('/', (req, res) => {
   res.write('<h1>Hello from Express.jssss!</h1>');
   res.end();
 });
+
+router.get("/getip", async function(req, res) {
+  var ip = req.headers['x-forwarded-for'] ||
+    req.connection.remoteAddress ||
+    req.socket.remoteAddress ||
+    (req.connection.socket ? req.connection.socket.remoteAddress : null);
+
+  return res.send("show_ip('" + ip + "');");
+});
+
 router.get('/another', (req, res) => res.json({
   route: req.originalUrl
 }));
