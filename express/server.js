@@ -9,8 +9,8 @@ const line = require('@line/bot-sdk');
 const lineNotify = require('express-line-notify');
 
 var config_line_notify_netlify = {
-  clientId: "ftjvDnrjcE7uhDvT4qJcWS",
-  clientSecret: "CRvbN41rDh7hUUB3r6qp3SOsXJVTzUwldOafUHq32rd"
+  clientId: "PV01I9aQ6xoTTipJXXdR8a",
+  clientSecret: "VCB2nROGXky7MaO8dJXnpVClCo9PyGCq6nvnjEIRelK"
 }
 
 const router = express.Router();
