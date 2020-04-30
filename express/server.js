@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
   res.end();
 });
 
-router.get('/getip', (req, res) => {
+app.get('/getip', (req, res) => {
   var ip = req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress ||
     req.socket.remoteAddress ||
