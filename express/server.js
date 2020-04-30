@@ -49,7 +49,7 @@ router.get('/push2', (req, res) => {
   console.log("push2");
 });
 
-app.post('/callback', line.middleware(config), (req, res) => {
+router.post('/callback', line.middleware(config), (req, res) => {
   console.log("callback");
   if (!Array.isArray(req.body.events)) {
     return res.status(500).end();
