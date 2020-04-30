@@ -131,6 +131,30 @@ function handleSatellite(client, replyToken) {
   });
 }
 
+handleTicket = (access_token, song_id) => new Promise((resolve, reject) => {
+  var options = {
+    url: "https://api.kkbox.com/v1.1/tickets",
+    headers: {
+      'Authorization': 'Bearer ' + access_token,
+      'content-type': 'application/json'
+    },
+    json: {
+      'track_id': song_id
+    },
+    method: 'POST'
+  };
+  request(options, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var info = JSON.stringify(body)
+      var obj = JSON.parse(info);
+      let shortUrl = utils.getShortUrl(obj.url);
+      resolve(shortUrl);
+    } else {
+      reject();
+    }
+  });
+});
+
 function handleHotKKBox(client, replyToken, access_token, song_type) {
   var type_title = "華語單曲日榜";
   if (song_type == KKBOX_SONG_TYPE.POPULAR_CHINESE) {
@@ -204,30 +228,6 @@ function handleHotKKBox(client, replyToken, access_token, song_type) {
     }
   });
 }
-
-handleTicket = (access_token, song_id) => new Promise((resolve, reject) => {
-  var options = {
-    url: "https://api.kkbox.com/v1.1/tickets",
-    headers: {
-      'Authorization': 'Bearer ' + access_token,
-      'content-type': 'application/json'
-    },
-    json: {
-      'track_id': song_id
-    },
-    method: 'POST'
-  };
-  request(options, function(error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var info = JSON.stringify(body)
-      var obj = JSON.parse(info);
-      let shortUrl = utils.getShortUrl(obj.url);
-      resolve(shortUrl);
-    } else {
-      reject();
-    }
-  });
-});
 
 app.use('/.netlify/functions/server', router); // path must route to lambda
 
