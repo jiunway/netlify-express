@@ -79,6 +79,7 @@ function handleEvent(event) {
 function handleText(message, replyToken, source) {
   console.log("User id:" + source.userId)
   console.log("User replyToken:" + replyToken)
+  console.log("message:" + message.text);
 
   message.text = message.text.trim();
   if (message.text.startsWith('雲')) {
