@@ -6,3 +6,8 @@
   from = "/getip"
   to = "/.netlify/functions/server/getip"
   status = 200
+
+[[redirects]]
+  from = "/line_notify_netlify"
+  to = "/.netlify/functions/server/line_notify_netlify"
+  status = 200
