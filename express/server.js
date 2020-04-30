@@ -8,6 +8,7 @@ const request = require('request');
 
 const line = require('@line/bot-sdk');
 const line_api = require('./line_api.js');
+const utils = require('./utils.js');
 
 const config = {
   channelAccessToken: "PRt8Txg9wGTbGYc3CLCmOFVRfhFZje8XX3i54mcYkqkbdugc381oMpb5WoHpf3wkEBFSXthoSULCVAhdyR9vyyBKncVMQe62FNGEJhFy9IsfNz6p2M7Q+FUGrT2W2bBAo1+43HONg+i05bld93f72AdB04t89/1O/w1cDnyilFU=",
@@ -199,7 +200,7 @@ function handleHotKKBox(client, replyToken, access_token, song_type) {
                   var obj = JSON.parse(info);
                   console.log("obj.url:" + obj.url);
 
-                  let ticket = obj.url;
+                  let ticket = utils.getShortUrl(obj.url);
                   console.log("ticket:" + ticket);
 
                   let message = artist_name + '-' + album_name + '-' + song_name + "\n";
