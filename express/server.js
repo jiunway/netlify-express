@@ -59,6 +59,8 @@ router.post('/callback', line.middleware(config), (req, res) => {
     console.log(error);
   });
 
+  console.log("req.body.events:" + req.body.events);
+
   // if (!Array.isArray(req.body.events)) {
   //   return res.status(500).end();
   // }
