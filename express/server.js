@@ -64,12 +64,13 @@ router.post('/callback', line.middleware(config), (req, res) => {
   // if (!Array.isArray(req.body.events)) {
   //   return res.status(500).end();
   // }
-  // Promise.all(req.body.events.map(handleEvent))
-  //   .then(() => res.end())
-  //   .catch((err) => {
-  //     console.error(err);
-  //     res.status(500).end();
-  //   });
+  Promise.all(req.body.events.map(handleEvent))
+    .then(() => {
+      console.error("!!!");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
 function handleEvent(event) {
