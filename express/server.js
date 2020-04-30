@@ -82,17 +82,19 @@ function handleText(message, replyToken, source) {
   console.log("message:" + message.text);
 
   message.text = message.text.trim();
-  if (message.text.startsWith('雲')) {
-    console.log("雲");
-    client.replyMessage(replyToken, {
-      type: 'text',
-      text: "message"
-    }).catch(function(error) {
-      console.log(error);
-    }).then(function() {
-      console.log("!!!!!");
-    });
-  }
+
+  client.replyMessage(replyToken, {
+    type: 'text',
+    text: message.text
+  }).catch(function(error) {
+    console.log(error);
+  }).then(function() {
+    console.log("!!!!!");
+  });
+
+  // if (message.text.startsWith('雲')) {
+  //   console.log("雲");
+  // }
 }
 
 //app.use(bodyParser.json());
