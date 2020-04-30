@@ -8,6 +8,6 @@
   status = 200
 
 [[redirects]]
-  from = "/line_notify_netlify"
-  to = "/.netlify/functions/server/line_notify_netlify"
+  from = "/line_notify_netlifys"
+  to = "/.netlify/functions/server/line_notify_netlifys"
   status = 200
