@@ -14,6 +14,14 @@ const config = {
   channelSecret: "c9b4359a229ca375989d58690d490372",
 };
 
+const KKBOX_SONG_TYPE = {
+  SEARCH: 1,
+  POPULAR_CHINESE: 2,
+  POPULAR_WESTERN: 3,
+  POPULAR_KOREAN: 4,
+  POPULAR_JAPANESE: 5
+};
+
 const client = new line.Client(config);
 
 const router = express.Router();
@@ -77,6 +85,8 @@ function handleText(message, replyToken, source) {
 
   if (message.text.startsWith('雲')) {
     handleSatellite(client, replyToken);
+  } else if (message.text.startsWith('歌')) {
+    handleHotKKBox(client, replyToken, "RZ3F5iXhFMAz1dqkHv6K1w==", KKBOX_SONG_TYPE.POPULAR_CHINESE);
   }
 }
 
@@ -120,6 +130,104 @@ function handleSatellite(client, replyToken) {
     }
   });
 }
+
+function handleHotKKBox(client, replyToken, access_token, song_type) {
+  var type_title = "華語單曲日榜";
+  if (song_type == KKBOX_SONG_TYPE.POPULAR_CHINESE) {
+    type_title = "華語單曲日榜";
+  } else if (song_type == KKBOX_SONG_TYPE.POPULAR_WESTERN) {
+    type_title = "西洋單曲日榜";
+  } else if (song_type == KKBOX_SONG_TYPE.POPULAR_KOREAN) {
+    type_title = "韓語單曲日榜";
+  } else if (song_type == KKBOX_SONG_TYPE.POPULAR_JAPANESE) {
+    type_title = "日語單曲日榜";
+  }
+
+  var options = {
+    url: "https://api.kkbox.com/v1.1/charts",
+    headers: {
+      'Authorization': 'Bearer ' + access_token
+    }
+  };
+  request(options, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var info = JSON.parse(body);
+
+      for (var i = 0; i < info.data.length; i++) {
+        if (info.data[i].title.indexOf(type_title) !== -1) {
+
+          var options_1 = {
+            url: 'https://api.kkbox.com/v1.1/shared-playlists/' + info.data[i].id,
+            headers: {
+              'Authorization': 'Bearer ' + access_token
+            }
+          };
+
+          request(options_1, async function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+              var info = JSON.parse(body);
+              var songIndex = utils.getRandom(info.tracks.data.length);
+              var song_id = info.tracks.data[songIndex].id
+              var song_name = info.tracks.data[songIndex].name
+              var song_duration = info.tracks.data[songIndex].duration
+              var album_name = info.tracks.data[songIndex].album.name
+              var album_image_url = info.tracks.data[songIndex].album.images[1].url
+              var artist_name = ""
+              var artist_image_url = ""
+              if (info.tracks.data[songIndex].album.artist !== undefined) {
+                artist_name = info.tracks.data[songIndex].album.artist.name
+                artist_image_url = info.tracks.data[songIndex].album.artist.images[1].url
+              }
+
+              console.log("song_name:" + song_name);
+              console.log("song_id:" + song_id);
+
+              let ticket = await handleTicket(access_token, song_id);
+              console.log("ticket:" + ticket);
+
+              let message = artist_name + '-' + album_name + '-' + song_name + "\n";
+              message += ticket;
+              console.log("message:" + message);
+
+              let albumImageMessage = line_api.getImageMessage(album_image_url);
+              let textMessage = line_api.getTextMessage(message);
+
+              let pushMsgArr = [];
+              pushMsgArr.push(albumImageMessage);
+              pushMsgArr.push(textMessage);
+
+              line_api.replyMessage(client, replyToken, pushMsgArr);
+            }
+          });
+        }
+      }
+    }
+  });
+}
+
+handleTicket = (access_token, song_id) => new Promise((resolve, reject) => {
+  var options = {
+    url: "https://api.kkbox.com/v1.1/tickets",
+    headers: {
+      'Authorization': 'Bearer ' + access_token,
+      'content-type': 'application/json'
+    },
+    json: {
+      'track_id': song_id
+    },
+    method: 'POST'
+  };
+  request(options, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var info = JSON.stringify(body)
+      var obj = JSON.parse(info);
+      let shortUrl = utils.getShortUrl(obj.url);
+      resolve(shortUrl);
+    } else {
+      reject();
+    }
+  });
+});
 
 app.use('/.netlify/functions/server', router); // path must route to lambda
 
