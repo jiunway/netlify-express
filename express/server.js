@@ -200,8 +200,7 @@ function handleHotKKBox(client, replyToken, access_token, song_type) {
                   var obj = JSON.parse(info);
                   //console.log("obj.url:" + obj.url);
 
-                  let ticket = utils.getShortUrl(obj.url);
-                  //let ticket = obj.url
+                  let ticket = obj.url
                   console.log("ticket:" + ticket);
 
                   let message = artist_name + '-' + album_name + '-' + song_name + "\n";
