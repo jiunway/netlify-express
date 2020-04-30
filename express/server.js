@@ -52,7 +52,6 @@ router.get('/push2', (req, res) => {
 router.post('/callback', line.middleware(config), (req, res) => {
   console.log("callback");
 
-  console.log("callback1");
   client.pushMessage("Uc1cf0b16a4cfa6d9b099cc918064536d", {
     type: 'text',
     text: "fsaefafe"
@@ -60,15 +59,15 @@ router.post('/callback', line.middleware(config), (req, res) => {
     console.log(error);
   });
 
-  if (!Array.isArray(req.body.events)) {
-    return res.status(500).end();
-  }
-  Promise.all(req.body.events.map(handleEvent))
-    .then(() => res.end())
-    .catch((err) => {
-      console.error(err);
-      res.status(500).end();
-    });
+  // if (!Array.isArray(req.body.events)) {
+  //   return res.status(500).end();
+  // }
+  // Promise.all(req.body.events.map(handleEvent))
+  //   .then(() => res.end())
+  //   .catch((err) => {
+  //     console.error(err);
+  //     res.status(500).end();
+  //   });
 });
 
 function handleEvent(event) {
