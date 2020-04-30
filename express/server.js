@@ -131,30 +131,6 @@ function handleSatellite(client, replyToken) {
   });
 }
 
-handleTicket = (access_token, song_id) => new Promise((resolve, reject) => {
-  var options = {
-    url: "https://api.kkbox.com/v1.1/tickets",
-    headers: {
-      'Authorization': 'Bearer ' + access_token,
-      'content-type': 'application/json'
-    },
-    json: {
-      'track_id': song_id
-    },
-    method: 'POST'
-  };
-  request(options, function(error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var info = JSON.stringify(body)
-      var obj = JSON.parse(info);
-      let shortUrl = utils.getShortUrl(obj.url);
-      resolve(shortUrl);
-    } else {
-      reject();
-    }
-  });
-});
-
 function handleHotKKBox(client, replyToken, access_token, song_type) {
   var type_title = "華語單曲日榜";
   if (song_type == KKBOX_SONG_TYPE.POPULAR_CHINESE) {
@@ -206,21 +182,40 @@ function handleHotKKBox(client, replyToken, access_token, song_type) {
               console.log("song_name:" + song_name);
               console.log("song_id:" + song_id);
 
-              let ticket = await handleTicket(access_token, song_id);
-              console.log("ticket:" + ticket);
+              var options_2 = {
+                url: "https://api.kkbox.com/v1.1/tickets",
+                headers: {
+                  'Authorization': 'Bearer ' + access_token,
+                  'content-type': 'application/json'
+                },
+                json: {
+                  'track_id': song_id
+                },
+                method: 'POST'
+              };
+              request(options_2, function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                  var info = JSON.stringify(body)
+                  var obj = JSON.parse(info);
+                  console.log("obj.url:" + obj.url);
 
-              let message = artist_name + '-' + album_name + '-' + song_name + "\n";
-              message += ticket;
-              console.log("message:" + message);
+                  let ticket = obj.url;
+                  console.log("ticket:" + ticket);
 
-              let albumImageMessage = line_api.getImageMessage(album_image_url);
-              let textMessage = line_api.getTextMessage(message);
+                  let message = artist_name + '-' + album_name + '-' + song_name + "\n";
+                  message += ticket;
+                  console.log("message:" + message);
 
-              let pushMsgArr = [];
-              pushMsgArr.push(albumImageMessage);
-              pushMsgArr.push(textMessage);
+                  let albumImageMessage = line_api.getImageMessage(album_image_url);
+                  let textMessage = line_api.getTextMessage(message);
 
-              line_api.replyMessage(client, replyToken, pushMsgArr);
+                  let pushMsgArr = [];
+                  pushMsgArr.push(albumImageMessage);
+                  pushMsgArr.push(textMessage);
+
+                  line_api.replyMessage(client, replyToken, pushMsgArr);
+                }
+              });
             }
           });
         }
