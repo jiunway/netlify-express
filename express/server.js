@@ -80,7 +80,9 @@ function handleText(message, replyToken, source) {
   }
 }
 
-function handleSatellite = (client, replyToken) => {
+function handleSatellite(client, replyToken) {
+  console.log("handleSatellite");
+
   var options = {
     url: "https://www.cwb.gov.tw/Data/js/obs_img/Observe_sat.js",
     method: 'GET'
@@ -91,6 +93,8 @@ function handleSatellite = (client, replyToken) => {
       var next = body.indexOf('\'', first + 1);
       var satellite_url = "https://www.cwb.gov.tw/Data/satellite/" + body.substring(first + 1, next);
 
+      console.log("satellite_url:" + satellite_url);
+
       var options = {
         url: "https://www.cwb.gov.tw/Data/js/obs_img/Observe_radar.js",
         method: 'GET'
@@ -100,6 +104,8 @@ function handleSatellite = (client, replyToken) => {
           var first = body.indexOf("\'CV1_TW_3600");
           var next = body.indexOf('\'', first + 1);
           var rader_url = "https://www.cwb.gov.tw/Data/radar/" + body.substring(first + 1, next);
+
+          console.log("rader_url:" + rader_url);
 
           let sateImageMessage = line_api.getImageMessage(satellite_url);
           let raderImageMessage = line_api.getImageMessage(rader_url);
