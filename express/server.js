@@ -45,6 +45,10 @@ router.post('/push1', (req, res) => {
   console.log("push1");
 });
 
+router.get('/push2', (req, res) => {
+  console.log("push2");
+});
+
 app.post('/callback', line.middleware(config), (req, res) => {
   console.log("callback");
   if (!Array.isArray(req.body.events)) {
