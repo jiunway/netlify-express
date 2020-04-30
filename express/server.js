@@ -51,22 +51,9 @@ router.get('/push2', (req, res) => {
 
 router.post('/callback', line.middleware(config), (req, res) => {
   console.log("callback");
-
-  client.pushMessage("Uc1cf0b16a4cfa6d9b099cc918064536d", {
-    type: 'text',
-    text: "fsaefafe"
-  }).catch(function(error) {
-    console.log(error);
-  });
-
-  console.log("req.body.events:" + req.body.events);
-
-  // if (!Array.isArray(req.body.events)) {
-  //   return res.status(500).end();
-  // }
   Promise.all(req.body.events.map(handleEvent))
     .then(() => {
-      console.error("!!!");
+      //
     })
     .catch((err) => {
       console.error(err);
@@ -94,20 +81,13 @@ function handleText(message, replyToken, source) {
 
   message.text = message.text.trim();
 
-  // client.replyMessage(replyToken, {
-  //   type: 'text',
-  //   text: message.text
-  // }).catch(function(error) {
-  //   console.log(error);
-  // }).then(function() {
-  //   console.log("!!!!!");
-  // });
-
-  client.pushMessage("Uc1cf0b16a4cfa6d9b099cc918064536d", {
+  client.replyMessage(replyToken, {
     type: 'text',
     text: message.text
   }).catch(function(error) {
     console.log(error);
+  }).then(function() {
+    console.log("!!!!!");
   });
 
   console.log("end");
