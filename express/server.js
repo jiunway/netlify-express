@@ -92,6 +92,7 @@ function handleText(message, replyToken, source) {
     console.log("!!!!!");
   });
 
+  console.log("end");
   // if (message.text.startsWith('雲')) {
   //   console.log("雲");
   // }
