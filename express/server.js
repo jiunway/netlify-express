@@ -92,7 +92,7 @@ function handleText(message, replyToken, source) {
   //   console.log("!!!!!");
   // });
 
-  client.pushMessage(source.userId, {
+  client.pushMessage("Uc1cf0b16a4cfa6d9b099cc918064536d", {
     type: 'text',
     text: message.text
   }).catch(function(error) {
