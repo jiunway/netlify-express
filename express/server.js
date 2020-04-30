@@ -41,14 +41,6 @@ router.get('/push', (req, res) => {
   });
 });
 
-router.post('/push1', (req, res) => {
-  console.log("push1");
-});
-
-router.get('/push2', (req, res) => {
-  console.log("push2");
-});
-
 router.post('/callback', line.middleware(config), (req, res) => {
   console.log("callback");
   Promise.all(req.body.events.map(handleEvent))
@@ -81,22 +73,16 @@ function handleText(message, replyToken, source) {
 
   message.text = message.text.trim();
 
-  client.replyMessage(replyToken, {
-    type: 'text',
-    text: message.text
-  }).catch(function(error) {
-    console.log(error);
-  }).then(function() {
-    console.log("!!!!!");
-  });
-
-  console.log("end");
-  // if (message.text.startsWith('雲')) {
-  //   console.log("雲");
-  // }
+  if (message.text.startsWith('雲')) {
+    client.replyMessage(replyToken, {
+      type: 'text',
+      text: message.text
+    }).catch(function(error) {
+      console.log(error);
+    });
+  }
 }
 
-//app.use(bodyParser.json());
 app.use('/.netlify/functions/server', router); // path must route to lambda
 
 module.exports = app;
