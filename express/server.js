@@ -51,6 +51,14 @@ router.get('/push2', (req, res) => {
 
 router.post('/callback', line.middleware(config), (req, res) => {
   console.log("callback");
+
+  client.pushMessage("Uc1cf0b16a4cfa6d9b099cc918064536d", {
+    type: 'text',
+    text: "fsaefafe"
+  }).catch(function(error) {
+    console.log(error);
+  });
+
   if (!Array.isArray(req.body.events)) {
     return res.status(500).end();
   }
