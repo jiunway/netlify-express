@@ -49,7 +49,7 @@ router.get('/push2', (req, res) => {
   console.log("push2");
 });
 
-router.post('/callback', (req, res) => {
+router.post('/callback', line.middleware(config), (req, res) => {
   console.log("callback");
   // if (!Array.isArray(req.body.events)) {
   //   return res.status(500).end();
@@ -92,7 +92,7 @@ function handleText(message, replyToken, source) {
   }
 }
 
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 app.use('/.netlify/functions/server', router); // path must route to lambda
 
 module.exports = app;
