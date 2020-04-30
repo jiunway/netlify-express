@@ -83,13 +83,20 @@ function handleText(message, replyToken, source) {
 
   message.text = message.text.trim();
 
-  client.replyMessage(replyToken, {
+  // client.replyMessage(replyToken, {
+  //   type: 'text',
+  //   text: message.text
+  // }).catch(function(error) {
+  //   console.log(error);
+  // }).then(function() {
+  //   console.log("!!!!!");
+  // });
+
+  client.pushMessage(source.userId, {
     type: 'text',
     text: message.text
   }).catch(function(error) {
     console.log(error);
-  }).then(function() {
-    console.log("!!!!!");
   });
 
   console.log("end");
