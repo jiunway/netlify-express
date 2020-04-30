@@ -42,6 +42,7 @@ router.get('/push', (req, res) => {
 });
 
 router.post('/callback', line.middleware(config), (req, res) => {
+  console.log("callback");
   if (!Array.isArray(req.body.events)) {
     return res.status(500).end();
   }
