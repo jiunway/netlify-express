@@ -33,7 +33,10 @@ router.get('/getip', (req, res) => {
 });
 
 router.get('/push', (req, res) => {
-  client.pushMessage("U161efffff21d107f1416e2d9529cff55", "test").catch(function(error) {
+  client.pushMessage("U161efffff21d107f1416e2d9529cff55", {
+    type: 'text',
+    text: "test"
+  }).catch(function(error) {
     console.log(error);
   });
 });
