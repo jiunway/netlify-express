@@ -41,7 +41,7 @@ router.get('/push', (req, res) => {
   });
 });
 
-app.post('/push1', (req, res) => {
+router.post('/push1', (req, res) => {
   console.log("push1");
 });
 
