@@ -198,23 +198,33 @@ function handleHotKKBox(client, replyToken, access_token, song_type) {
                 if (!error && response.statusCode == 200) {
                   var info = JSON.stringify(body)
                   var obj = JSON.parse(info);
-                  //console.log("obj.url:" + obj.url);
 
-                  let ticket = obj.url
-                  console.log("ticket:" + ticket);
+                  var options_3 = {
+                    url: 'https://api-ssl.bitly.com/v3/shorten?access_token=d89f0aa46489a17b3ce6935c04a9f74f534492e0&longUrl=' + encodeURIComponent(obj.url),
+                    method: 'GET'
+                  };
+                  request(options_3, function(error, response, body) {
+                    if (!error && response.statusCode == 200) {
+                      console.log("body:" + body);
+                      var info = JSON.parse(body);
+                      let ticket = info.data.url;
 
-                  let message = artist_name + '-' + album_name + '-' + song_name + "\n";
-                  message += ticket;
-                  console.log("message:" + message);
+                      console.log("ticket:" + ticket);
 
-                  let albumImageMessage = line_api.getImageMessage(album_image_url);
-                  let textMessage = line_api.getTextMessage(message);
+                      let message = artist_name + '-' + album_name + '-' + song_name + "\n";
+                      message += ticket;
+                      console.log("message:" + message);
 
-                  let pushMsgArr = [];
-                  pushMsgArr.push(albumImageMessage);
-                  pushMsgArr.push(textMessage);
+                      let albumImageMessage = line_api.getImageMessage(album_image_url);
+                      let textMessage = line_api.getTextMessage(message);
 
-                  line_api.replyMessage(client, replyToken, pushMsgArr);
+                      let pushMsgArr = [];
+                      pushMsgArr.push(albumImageMessage);
+                      pushMsgArr.push(textMessage);
+
+                      line_api.replyMessage(client, replyToken, pushMsgArr);
+                    }
+                  });
                 }
               });
             }
