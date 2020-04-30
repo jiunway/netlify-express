@@ -33,7 +33,7 @@ router.get('/getip', (req, res) => {
 });
 
 router.get('/push', (req, res) => {
-  client.pushMessage("U161efffff21d107f1416e2d9529cff55", {
+  client.pushMessage("Uc1cf0b16a4cfa6d9b099cc918064536d", {
     type: 'text',
     text: "test"
   }).catch(function(error) {
@@ -85,7 +85,7 @@ function handleText(message, replyToken, source) {
     console.log("雲");
     client.replyMessage(replyToken, {
       type: 'text',
-      text: "fetch 雲"
+      text: "message"
     }).catch(function(error) {
       console.log(error);
     });
