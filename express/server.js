@@ -52,6 +52,7 @@ router.get('/push2', (req, res) => {
 router.post('/callback', line.middleware(config), (req, res) => {
   console.log("callback");
 
+  console.log("callback1");
   client.pushMessage("Uc1cf0b16a4cfa6d9b099cc918064536d", {
     type: 'text',
     text: "fsaefafe"
