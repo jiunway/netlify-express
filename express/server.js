@@ -41,11 +41,11 @@ router.get('/push', (req, res) => {
   });
 });
 
-router.post('/push1', (req, res) => {
+app.post('/push1', (req, res) => {
   console.log("push1");
 });
 
-router.post('/callback', line.middleware(config), (req, res) => {
+app.post('/callback', line.middleware(config), (req, res) => {
   console.log("callback");
   if (!Array.isArray(req.body.events)) {
     return res.status(500).end();
