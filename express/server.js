@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const line = require('@line/bot-sdk');
 
 const config = {
-  channelAccessToken: "7XNzjdaY+siCxfSHDqrn1/nUeGvOnNbrJHXq+5M/6+ZqV/pUh/U7N81jbW3AkHLJCgsCxi7nWcOVVBPoCQIQxZQIpNF5mkAuHTTB6y6GCQYxgZVeqwGZWGwsEPCFAmUX59rEpWfY+NNdrGNOf+aKdAdB04t89/1O/w1cDnyilFU=",
-  channelSecret: "40b8dc6da4c0bbf9dada7688aa38a32a",
+  channelAccessToken: "PRt8Txg9wGTbGYc3CLCmOFVRfhFZje8XX3i54mcYkqkbdugc381oMpb5WoHpf3wkEBFSXthoSULCVAhdyR9vyyBKncVMQe62FNGEJhFy9IsfNz6p2M7Q+FUGrT2W2bBAo1+43HONg+i05bld93f72AdB04t89/1O/w1cDnyilFU=",
+  channelSecret: "c9b4359a229ca375989d58690d490372",
 };
 
 const client = new line.Client(config);
@@ -68,10 +68,16 @@ function handleEvent(event) {
 }
 
 function handleText(message, replyToken, source) {
+  console.log("User id:" + source.userId)
+  console.log("User replyToken:" + replyToken)
+
   message.text = message.text.trim();
   if (message.text.startsWith('雲')) {
     console.log("雲");
-    client.pushMessage("U161efffff21d107f1416e2d9529cff55", "test").catch(function(error) {
+    client.replyMessage(replyToken, {
+      type: 'text',
+      text: "fetch 雲"
+    }).catch(function(error) {
       console.log(error);
     });
   }
