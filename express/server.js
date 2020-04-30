@@ -89,6 +89,8 @@ function handleText(message, replyToken, source) {
       text: "message"
     }).catch(function(error) {
       console.log(error);
+    }).then(function() {
+      console.log("!!!!!");
     });
   }
 }
