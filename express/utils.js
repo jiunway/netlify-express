@@ -15,6 +15,7 @@ utils.getShortUrl = (longurl) => {
   var url = 'https://api-ssl.bitly.com/v3/shorten?access_token=d89f0aa46489a17b3ce6935c04a9f74f534492e0&longUrl=' +
     encodeURIComponent(longurl)
   var res = sync_request('GET', url);
+  console.log("res:" + res.getBody())
   var info = JSON.parse(res.getBody());
   return info.data.url;
 };
